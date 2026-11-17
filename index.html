@@ -394,7 +394,7 @@ async function enterApp(user){
   say('¡Tu cuenta ya está creada! Solo falta la aprobación del administrador para activar tu cuenta. Si necesitas ayuda, comunícate con Atención al Cliente: Agentepro2026@gmail.com · WhatsApp 940662229.');
   await signOut(auth);return;
  }
- currentProfile=profile; gate.style.display='none';app.style.display='block';
+ currentProfile=profile; const adminNav = document.querySelector('.nav[data-page="admin"]'); if (adminNav) { adminNav.style.display = profile.role === 'admin' && user.email.toLowerCase() === OWNER_EMAIL ? '' : 'none'; } gate.style.display='none';app.style.display='block';
  if(profile.role==='admin' && user.email.toLowerCase()===OWNER_EMAIL){loadAdminUsers();}
 }
 
