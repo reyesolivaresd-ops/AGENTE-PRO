@@ -383,7 +383,6 @@ submit.addEventListener('click', async()=>{
    const cred=await signInWithEmailAndPassword(auth,email,password);
    await reload(cred.user);
    if(!cred.user.emailVerified){await sendEmailVerification(cred.user);await signOut(auth);say('Antes de ingresar, verifica tu correo. Te enviamos un nuevo enlace de verificación.',true);return;}
-   await enterApp(cred.user);
   }
  }catch(e){say(friendly(e),true);}finally{busy=false;submit.disabled=false;}
 });
