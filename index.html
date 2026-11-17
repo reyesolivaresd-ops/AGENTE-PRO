@@ -450,26 +450,26 @@ async function changeAgentStatus(uid,status){
  try{await updateDoc(doc(db,'users',uid),{status,approvedAt:status==='approved'?serverTimestamp():null});adminStatus.textContent='Estado actualizado.';await loadAdminUsers();}
  catch(e){adminStatus.textContent='No se pudo actualizar. Comprueba las reglas de Firestore.';}
 }
-+saveOwnerProfile.addEventListener('click',async()=>{
-+ if(!auth.currentUser||auth.currentUser.email.toLowerCase()!==OWNER_EMAIL||!currentProfile||currentProfile.role!=='admin'){
-+  ownerProfileStatus.textContent='No tienes permisos para actualizar este perfil.';return;
-+ }
-+ const firstName=document.getElementById('ownerFirstName').value.trim();
-+ const lastName=document.getElementById('ownerLastName').value.trim();
-+ if(!firstName||!lastName){ownerProfileStatus.textContent='Completa tus nombres y apellidos.';return;}
-+ const displayName=`${firstName} ${lastName}`.replace(/\s+/g,' ').trim();
-+ saveOwnerProfile.disabled=true;
-+ try{
-+  await updateProfile(auth.currentUser,{displayName});
-+  await updateDoc(doc(db,'users',auth.currentUser.uid),{displayName});
-+  currentProfile={...currentProfile,displayName};
-+  window.accountDisplayName=displayName;
-+  document.querySelectorAll('[data-account-name]').forEach(input=>{input.value=displayName});
-+  if(typeof renderAttendance==='function')renderAttendance();
-+  ownerProfileStatus.textContent='Nombre actualizado.';
-+ }catch(e){ownerProfileStatus.textContent='No se pudo actualizar el perfil. Verifica los permisos de Firestore.';}
-+ finally{saveOwnerProfile.disabled=false;}
-+});
+saveOwnerProfile.addEventListener('click',async()=>{
+ if(!auth.currentUser||auth.currentUser.email.toLowerCase()!==OWNER_EMAIL||!currentProfile||currentProfile.role!=='admin'){
+  ownerProfileStatus.textContent='No tienes permisos para actualizar este perfil.';return;
+ }
+ const firstName=document.getElementById('ownerFirstName').value.trim();
+ const lastName=document.getElementById('ownerLastName').value.trim();
+ if(!firstName||!lastName){ownerProfileStatus.textContent='Completa tus nombres y apellidos.';return;}
+ const displayName=`${firstName} ${lastName}`.replace(/\s+/g,' ').trim();
+ saveOwnerProfile.disabled=true;
+ try{
+  await updateProfile(auth.currentUser,{displayName});
+  await updateDoc(doc(db,'users',auth.currentUser.uid),{displayName});
+  currentProfile={...currentProfile,displayName};
+  window.accountDisplayName=displayName;
+  document.querySelectorAll('[data-account-name]').forEach(input=>{input.value=displayName});
+  if(typeof renderAttendance==='function')renderAttendance();
+  ownerProfileStatus.textContent='Nombre actualizado.';
+ }catch(e){ownerProfileStatus.textContent='No se pudo actualizar el perfil. Verifica los permisos de Firestore.';}
+ finally{saveOwnerProfile.disabled=false;}
+});
  refreshUsers?.addEventListener('click',loadAdminUsers);
 
 onAuthStateChanged(auth,async user=>{
